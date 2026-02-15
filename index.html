@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>SSU — Smart Security University</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Instrument+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050a16;--bg2:#0a1428;--bg3:#0d1a33;--teal:#004c54;--tp:#00a094;--tb:#00c8b6;--te:#1eebd7;--th:#00ffe6;--cy:#00dcff;--mi:#50ffdc;--pu:#41238c;--pg:#6e46d2;--wh:#fff;--sl:#5a6e82;--sd:#415569;--rd:#ff4444;--gd:#ffd700;--gn:#00cc66;--or:#ff8844}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--wh);min-height:100vh;overflow-x:hidden}
+.hid{display:none!important}
+a{color:var(--te);text-decoration:none}
+
+/* LOGIN */
+#login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:radial-gradient(ellipse at center,#0a1e2e 0%,#050a16 70%)}
+.logo-w{cursor:pointer;transition:transform .3s;max-width:460px;width:100%;margin-bottom:10px}.logo-w:hover{transform:scale(1.02)}.logo-w img{width:100%;height:auto}
+.lbox{background:rgba(0,76,84,.12);border:1px solid rgba(30,235,215,.15);border-radius:16px;padding:32px 28px;max-width:420px;width:100%;backdrop-filter:blur(12px)}
+.lbox h2{font-family:'Outfit';font-weight:800;font-size:1.2rem;color:var(--te);text-align:center;letter-spacing:2px;margin-bottom:2px}
+.lbox .sub{text-align:center;color:var(--sl);font-size:.72rem;margin-bottom:20px;font-family:'Geist Mono'}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-family:'Geist Mono';font-size:.64rem;color:var(--tp);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.fg input,.fg select{width:100%;padding:10px 12px;background:rgba(5,10,22,.8);border:1px solid rgba(30,235,215,.2);border-radius:7px;color:var(--wh);font-family:'Instrument Sans';font-size:.9rem;outline:none;transition:border .3s}
+.fg input:focus,.fg select:focus{border-color:var(--te)}
+.fg input::placeholder{color:var(--sd)}
+.fg select option{background:var(--bg2)}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px}
+.rb{padding:10px 4px;background:rgba(5,10,22,.7);border:1px solid rgba(30,235,215,.12);border-radius:8px;color:var(--sl);font-family:'Geist Mono';font-size:.6rem;text-align:center;cursor:pointer;transition:all .3s;text-transform:uppercase;letter-spacing:1px}
+.rb:hover{border-color:var(--tb);color:var(--tb)}
+.rb.on{border-color:var(--th);color:var(--th);background:rgba(0,255,230,.06)}
+.rb .ri{display:block;font-size:1.2rem;margin-bottom:2px}
+.lbtn{width:100%;padding:12px;background:linear-gradient(135deg,var(--teal),var(--tp));border:none;border-radius:9px;color:var(--wh);font-family:'Outfit';font-weight:700;font-size:.9rem;cursor:pointer;letter-spacing:2px;text-transform:uppercase;transition:all .3s;margin-top:6px}
+.lbtn:hover{background:linear-gradient(135deg,var(--tp),var(--tb));box-shadow:0 0 24px rgba(0,255,230,.2)}
+.lerr{color:var(--rd);font-size:.7rem;text-align:center;margin-top:6px;min-height:16px;font-family:'Geist Mono'}
+.lftr{text-align:center;margin-top:12px;font-size:.62rem;color:var(--sd);font-family:'Geist Mono'}
+.lnk{color:var(--tp);cursor:pointer;text-decoration:underline}.lnk:hover{color:var(--te)}
+
+/* REGISTRATION MODAL */
+.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--bg2);border:1px solid rgba(30,235,215,.15);border-radius:16px;padding:32px;max-width:460px;width:100%}
+.modal h2{font-family:'Outfit';font-weight:800;color:var(--te);margin-bottom:16px;font-size:1.1rem}
+.modal .close{position:absolute;top:12px;right:16px;color:var(--sl);cursor:pointer;font-size:1.2rem}
+
+/* TOP BAR */
+.tbar{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:rgba(10,20,40,.95);border-bottom:1px solid rgba(30,235,215,.1);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.tbar .brand{cursor:pointer}.tbar .bt{font-family:'Outfit';font-weight:800;font-size:1.1rem;background:linear-gradient(90deg,var(--th),#fff,var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tbar .bs{font-family:'Geist Mono';font-size:.45rem;color:var(--tp);letter-spacing:2px;text-transform:uppercase}
+.ui{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ub{font-family:'Geist Mono';font-size:.62rem;padding:2px 8px;border-radius:16px;border:1px solid}
+.ub.tech{border-color:var(--te);color:var(--te)}.ub.sale{border-color:var(--gd);color:var(--gd)}.ub.coor{border-color:var(--pg);color:var(--pg)}.ub.mana{border-color:var(--or);color:var(--or)}.ub.exec{border-color:var(--rd);color:var(--rd)}
+.un{font-family:'Outfit';font-weight:600;font-size:.8rem}
+.us{font-family:'Geist Mono';font-size:.55rem;color:var(--sl)}
+.lo{background:none;border:1px solid var(--sd);color:var(--sl);padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Geist Mono';font-size:.6rem;transition:all .3s}.lo:hover{border-color:var(--rd);color:var(--rd)}
+
+/* TABS */
+.tabs{display:flex;gap:1px;padding:0 16px;background:rgba(10,20,40,.8);border-bottom:1px solid rgba(30,235,215,.06);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:8px 14px;font-family:'Geist Mono';font-size:.65rem;color:var(--sl);cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;letter-spacing:1px;white-space:nowrap}
+.tab:hover{color:var(--tb)}.tab.on{color:var(--te);border-bottom-color:var(--te)}
+
+/* MAIN */
+.main{max-width:1200px;margin:0 auto;padding:20px 16px}
+.welc{background:linear-gradient(135deg,rgba(0,76,84,.18),rgba(65,35,140,.12));border:1px solid rgba(30,235,215,.1);border-radius:12px;padding:22px;margin-bottom:20px}
+.welc h1{font-family:'Outfit';font-weight:800;font-size:1.4rem;margin-bottom:2px}
+.welc h1 span{background:linear-gradient(90deg,var(--th),var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.welc p{color:var(--sl);font-size:.8rem;line-height:1.3}
+.lt{display:inline-block;padding:2px 10px;border-radius:16px;font-family:'Geist Mono';font-size:.65rem;font-weight:700;margin-top:6px}
+.l1{background:rgba(30,235,215,.1);color:var(--te);border:1px solid var(--te)}
+.l2{background:rgba(0,204,102,.1);color:var(--gn);border:1px solid var(--gn)}
+.l3{background:rgba(255,215,0,.1);color:var(--gd);border:1px solid var(--gd)}
+.l4{background:rgba(255,68,68,.1);color:var(--rd);border:1px solid var(--rd)}
+.adm{background:rgba(110,70,210,.12);color:var(--pg);border:1px solid var(--pg)}
+.mgt{background:rgba(255,136,68,.1);color:var(--or);border:1px solid var(--or)}
+.ext{background:rgba(255,68,68,.1);color:var(--rd);border:1px solid var(--rd)}
+
+.sh{font-family:'Outfit';font-weight:700;font-size:1rem;color:var(--tb);margin:16px 0 10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.sh .ct{font-family:'Geist Mono';font-size:.6rem;color:var(--sl);background:rgba(30,235,215,.08);padding:2px 6px;border-radius:8px}
+
+/* CARDS */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:24px}
+.cd{background:rgba(10,20,40,.6);border:1px solid rgba(30,235,215,.08);border-radius:10px;padding:16px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.cd:hover{border-color:var(--te);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,255,230,.06)}
+.cd .ic{font-size:1.6rem;margin-bottom:6px}
+.cd h3{font-family:'Outfit';font-weight:700;font-size:.88rem;margin-bottom:3px}
+.cd p{color:var(--sl);font-size:.72rem;line-height:1.3}
+.cd .bg{position:absolute;top:8px;right:8px;font-family:'Geist Mono';font-size:.5rem;padding:2px 6px;border-radius:6px;background:rgba(30,235,215,.1);color:var(--tp)}
+.pb{height:3px;background:rgba(255,255,255,.04);border-radius:2px;margin-top:8px;overflow:hidden}
+.pf{height:100%;border-radius:2px;transition:width .5s}
+
+/* CURRICULUM */
+.ls{margin-bottom:20px}
+.lh{display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer;user-select:none}
+.lh h2{font-family:'Outfit';font-weight:800;font-size:1.1rem}
+.lh .ch{color:var(--sl);transition:transform .3s;font-size:.7rem}.lh .ch.op{transform:rotate(90deg)}
+.lh .pc{font-family:'Geist Mono';font-size:.65rem;margin-left:auto}
+.pg{margin-bottom:12px}
+.pbd{display:inline-flex;align-items:center;gap:4px;font-family:'Geist Mono';font-size:.58rem;padding:2px 8px;border-radius:10px;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.pb-adc{background:rgba(0,160,148,.1);color:var(--tp);border:1px solid rgba(0,160,148,.25)}
+.pb-aaa{background:rgba(30,235,215,.06);color:var(--te);border:1px solid rgba(30,235,215,.15)}
+.pb-esa{background:rgba(255,136,68,.08);color:var(--or);border:1px solid rgba(255,136,68,.2)}
+.pb-ntc{background:rgba(255,68,68,.08);color:var(--rd);border:1px solid rgba(255,68,68,.2)}
+.pb-brivo{background:rgba(110,70,210,.1);color:var(--pg);border:1px solid rgba(110,70,210,.2)}
+.pb-bosch{background:rgba(255,215,0,.08);color:var(--gd);border:1px solid rgba(255,215,0,.2)}
+.pb-dw{background:rgba(0,220,255,.08);color:var(--cy);border:1px solid rgba(0,220,255,.2)}
+.pb-ee{background:rgba(0,204,102,.08);color:var(--gn);border:1px solid rgba(0,204,102,.2)}
+.cl{display:flex;flex-direction:column;gap:3px;margin-left:6px}
+.ci{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(10,20,40,.5);border:1px solid rgba(30,235,215,.04);border-radius:6px;cursor:pointer;transition:all .2s;font-size:.78rem}
+.ci:hover{border-color:rgba(30,235,215,.12);background:rgba(0,76,84,.08)}
+.ci.dn{opacity:.5}.ci.dn .cn{text-decoration:line-through;color:var(--sl)}
+.cx{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--sd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.6rem}
+.ci.dn .cx{border-color:var(--gn);background:rgba(0,204,102,.12);color:var(--gn)}
+.cn{flex:1;color:var(--wh)}
+
+/* SEARCH BAR */
+.sbar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.sbar input{flex:1;min-width:200px;padding:10px 14px;background:rgba(5,10,22,.8);border:1px solid rgba(30,235,215,.15);border-radius:8px;color:var(--wh);font-family:'Instrument Sans';font-size:.88rem;outline:none}
+.sbar input:focus{border-color:var(--te)}
+.sbar input::placeholder{color:var(--sd)}
+.flt{display:flex;gap:4px;flex-wrap:wrap}
+.fb{padding:4px 10px;border-radius:14px;font-family:'Geist Mono';font-size:.58rem;cursor:pointer;border:1px solid rgba(30,235,215,.1);color:var(--sl);transition:all .2s;background:none}
+.fb:hover,.fb.on{border-color:var(--te);color:var(--te);background:rgba(30,235,215,.06)}
+
+/* TRAINING ENGINE */
+#train{display:none}
+.thd{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:rgba(10,20,40,.95);border-bottom:1px solid rgba(30,235,215,.1);position:sticky;top:0;z-index:100}
+.bb{background:none;border:1px solid var(--sd);color:var(--sl);padding:4px 10px;border-radius:5px;cursor:pointer;font-family:'Geist Mono';font-size:.65rem;transition:all .3s}.bb:hover{border-color:var(--te);color:var(--te)}
+.tl{font-family:'Outfit';font-weight:700;font-size:.9rem;color:var(--te)}
+.qc{font-family:'Geist Mono';font-size:.7rem;color:var(--sl)}
+.tb{max-width:720px;margin:0 auto;padding:22px 16px}
+.qk{font-family:'Geist Mono';font-size:.6rem;color:var(--tp);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px}
+.qt{font-family:'Outfit';font-weight:600;font-size:1.1rem;line-height:1.4;margin-bottom:16px}
+.qos{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.qo{padding:12px 14px;background:rgba(10,20,40,.6);border:1px solid rgba(30,235,215,.08);border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
+.qo:hover{border-color:var(--tb);background:rgba(0,76,84,.1)}
+.qo.sel{border-color:var(--th);background:rgba(0,255,230,.05)}
+.qo.cor{border-color:var(--gn);background:rgba(0,204,102,.06);color:var(--gn)}
+.qo.wrg{border-color:var(--rd);background:rgba(255,68,68,.05);color:var(--rd)}
+.ol{font-family:'Geist Mono';font-weight:700;font-size:.8rem;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:rgba(30,235,215,.05);color:var(--te);flex-shrink:0}
+.ot{font-size:.85rem;line-height:1.3}
+.qf{padding:12px 14px;border-radius:8px;margin-bottom:14px;font-size:.8rem;line-height:1.3;display:none}
+.qf.sh{display:block}
+.qf.cf{background:rgba(0,204,102,.06);border:1px solid rgba(0,204,102,.2);color:var(--gn)}
+.qf.wf{background:rgba(255,68,68,.05);border:1px solid rgba(255,68,68,.2);color:#ff8888}
+.qf .rf{font-family:'Geist Mono';font-size:.58rem;color:var(--sl);margin-top:3px}
+.ta{display:flex;gap:8px;justify-content:center}
+.ta button{padding:8px 20px;border-radius:6px;font-family:'Outfit';font-weight:700;font-size:.8rem;cursor:pointer;transition:all .3s;letter-spacing:1px}
+.bs{background:linear-gradient(135deg,var(--teal),var(--tp));border:none;color:var(--wh)}.bs:hover{box-shadow:0 0 16px rgba(0,255,230,.2)}.bs:disabled{opacity:.3;cursor:not-allowed}
+.bn{background:none;border:1px solid var(--te);color:var(--te)}.bn:hover{background:rgba(30,235,215,.05)}
+
+/* SCORE */
+.sc{background:rgba(10,20,40,.6);border:1px solid rgba(30,235,215,.1);border-radius:12px;padding:28px;text-align:center;margin:22px auto;max-width:420px}
+.sc .bsc{font-family:'Outfit';font-weight:900;font-size:3rem;margin:6px 0}
+.sc .bsc.ps{background:linear-gradient(90deg,var(--th),var(--gn));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sc .bsc.fl{background:linear-gradient(90deg,var(--rd),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sc .sl{font-family:'Geist Mono';font-size:.65rem;color:var(--sl);letter-spacing:2px;text-transform:uppercase}
+
+/* SEARCH RESULTS */
+.sr{background:rgba(10,20,40,.5);border:1px solid rgba(30,235,215,.06);border-radius:8px;padding:14px;margin-bottom:8px}
+.sr .sq{font-family:'Outfit';font-weight:600;font-size:.85rem;margin-bottom:6px}
+.sr .sa{font-size:.78rem;color:var(--gn);margin-bottom:3px}
+.sr .se{font-size:.72rem;color:var(--sl);line-height:1.3}
+.sr .sk{font-family:'Geist Mono';font-size:.55rem;color:var(--tp);margin-top:4px}
+
+/* MGR/EXEC DASHBOARD */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.stat{background:rgba(10,20,40,.6);border:1px solid rgba(30,235,215,.08);border-radius:10px;padding:16px;text-align:center}
+.stat .sv{font-family:'Outfit';font-weight:900;font-size:2rem}
+.stat .sl2{font-family:'Geist Mono';font-size:.6rem;color:var(--sl);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+@media(max-width:768px){.cg{grid-template-columns:1fr}.lbox{padding:22px 16px}.tbar{flex-direction:column;gap:6px}.ui{justify-content:center}.stat-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+<div class="logo-w"><img src="logo.png" alt="SSU"></div>
+<div class="lbox">
+<h2>ACCESS SSU</h2><div class="sub">SMART SECURITY UNIVERSITY &middot; 4,549 QUESTIONS &middot; 35 CATEGORIES</div>
+<div class="fg"><label>Employee ID</label><input type="text" id="eid" placeholder="TECH-001" autocomplete="off" autofocus></div>
+<div class="fg"><label>Password</label><input type="password" id="epw" placeholder="Enter password"></div>
+<div class="fg"><label>Role</label><div class="rg"><div class="rb" data-r="technician" onclick="sR(this)"><span class="ri">&#x26A1;</span>Tech</div><div class="rb" data-r="sales" onclick="sR(this)"><span class="ri">&#x1f4ca;</span>Sales</div><div class="rb" data-r="coordinator" onclick="sR(this)"><span class="ri">&#x1f517;</span>Coord</div></div></div>
+<div class="fg"><label>State</label><select id="est"><option value="">Select...</option><option value="AZ">Arizona</option><option value="CA">California</option><option value="NV">Nevada</option><option value="UT">Utah</option><option value="WY">Wyoming</option><option value="MT">Montana</option></select></div>
+<button class="lbtn" onclick="doLogin()">ACCESS SSU &rarr;</button>
+<div class="lerr" id="lerr"></div>
+<div class="lftr"><span class="lnk" onclick="fillD()">Demo</span> &middot; <span class="lnk" onclick="showReg()">Register</span> &middot; Contact supervisor for credentials</div>
+</div></div>
+
+<!-- REGISTER MODAL -->
+<div id="regModal" class="modal-bg hid" onclick="if(event.target===this)hideReg()">
+<div class="modal">
+<h2>REQUEST ACCESS</h2>
+<div class="fg"><label>Full Name</label><input type="text" id="rname" placeholder="Your name"></div>
+<div class="fg"><label>Email</label><input type="email" id="remail" placeholder="you@company.com"></div>
+<div class="fg"><label>State</label><select id="rstate"><option value="AZ">Arizona</option><option value="CA">California</option><option value="NV">Nevada</option><option value="UT">Utah</option><option value="WY">Wyoming</option><option value="MT">Montana</option></select></div>
+<div class="fg"><label>Requested Role</label><select id="rrole"><option value="technician">Technician</option><option value="sales">Sales</option><option value="coordinator">Coordinator</option></select></div>
+<button class="lbtn" onclick="submitReg()">SUBMIT REQUEST &rarr;</button>
+<div class="lerr" id="rerr"></div>
+<p style="font-size:.65rem;color:var(--sl);margin-top:10px;font-family:'Geist Mono'">Your request will be sent to management for approval. You'll receive credentials via email once approved.</p>
+</div></div>
+
+<!-- APP -->
+<div id="app" class="hid">
+<div class="tbar"><div class="brand" onclick="sT('dashboard')"><div class="bt">SSU</div><div class="bs">Smart Security University</div></div><div class="ui"><span class="un" id="un"></span><span class="ub" id="ub"></span><span class="us" id="us2"></span><button class="lo" onclick="out()">LOGOUT</button></div></div>
+<div class="tabs" id="tbs"></div>
+<div class="main" id="mc"></div></div>
+
+<!-- TRAINING -->
+<div id="train"><div class="thd"><button class="bb" onclick="xT()">&larr; BACK</button><span class="tl" id="tl"></span><span class="qc" id="qcc"></span></div><div class="tb" id="tby"></div></div>
+
+<script src="questions.js"></script>
+<script>
+// SSU.online — Smart Security University v3.0
+// 4,549 Questions · 35 Categories · L1-L4 Certification
+var U={'TECH-001':{n:'Practice Tech L1',pw:'SSUtech2026!',r:'technician',lv:'L1',st:'AZ'},'TECH-002':{n:'Practice Tech L2',pw:'SSUtech2026!',r:'technician',lv:'L2',st:'CA'},'TECH-003':{n:'Practice Tech L3',pw:'SSUtech2026!',r:'technician',lv:'L3',st:'NV'},'TECH-004':{n:'Practice Tech L4',pw:'SSUtech2026!',r:'technician',lv:'L4',st:'UT'},'SALES-001':{n:'Practice Sales Rep',pw:'SSUsales2026!',r:'sales',lv:'Rep',st:'AZ'},'COORD-001':{n:'Practice Coordinator',pw:'SSUcoord2026!',r:'coordinator',lv:'Coordinator',st:'AZ'},'MGR-001':{n:'Practice Manager',pw:'SSUmgr2026!',r:'manager',lv:'Manager',st:'AZ'},'EXEC-001':{n:'Practice Executive',pw:'SSUexec2026!',r:'executive',lv:'Executive',st:'AZ'},'DEMO':{n:'Demo User',pw:'demo2026',r:'technician',lv:'L1',st:'AZ'}};
+
+var CUR={L1:{t:'Entry-Level Technician',c:'var(--te)',cls:'l1',p:{'AAA UNIV':{cls:'pb-aaa',c:['LV Tech Training Curriculum','Stage 1: Entry-Level','Basic Electronics Theory','WL Qolsys','Fulcrum','Multimeter','Cable Crimper','Punch Down Tool','PPE Safety','Cable Tester','Drill & Bits','Labeling Tools','OSHA Familiar','AAA Ethernet','AAA Butt Set','AAA Meter Theory']},'ADC':{cls:'pb-adc',c:['Z-Wave Videos','Video Instructional','ADC Installer Tools','On-Site Wrap Up','Monitoring Basics','VDB770 Doorbell','MobileTech','Why Alarm.com','6 Best Practices','Business Analytics','Commercial Video','Alarm.com for Business','Third-Party Camera','Automation & Energy','Getting Started','Advanced Engagement','Customer Website','Enterprise Location','Explore Platform','Smart Tips']},'ESA':{cls:'pb-esa',c:['Certified Alarm Tech L1','Electronic Access Control','Video System Tech','OSHA 10 Safety']},'NTC':{cls:'pb-ntc',c:['OSHA 10 Safety']}}},L2:{t:'Intermediate Technician',c:'var(--gn)',cls:'l2',p:{'AAA UNIV':{cls:'pb-aaa',c:['Hardwire Takeover','Digital Watchdog','Ethernet Training','Butt Set','Meter Theory','Hardwire Translators','HW/WL Trainer','SEM VISTA Dual Path','SEM PowerSeries']},'ADC':{cls:'pb-adc',c:['Smart Thermostat','Pro Series Cameras','ADC Networking','CSVR Overview','Trouble Alerts','Security 101','Smarter Access Control','Smart Tips Advanced']},'Brivo':{cls:'pb-brivo',c:['Brivo Intro','Access Overview','Mobile Pass','SB Sales Training']},'DW':{cls:'pb-dw',c:['DW Sales & Technical']},'ESA':{cls:'pb-esa',c:['CSI Certification','Electronic Access Control','Video System Tech']},'Eagle Eye':{cls:'pb-ee',c:['Eagle Eye Platform']}}},L3:{t:'Advanced / Specialist',c:'var(--gd)',cls:'l3',p:{'NTC':{cls:'pb-ntc',c:['NICET 1','NICET 2']},'Brivo':{cls:'pb-brivo',c:['Brivo Cert: Intro','Brivo Cert: Access','Access Use Cases']},'ADC':{cls:'pb-adc',c:['Remote Video: Config','Remote Video: Setup','Proactive Deterrence','Camera Install & Features','Commercial Video Install']},'AAA UNIV':{cls:'pb-aaa',c:['Blue Prints','Notifier/Firelite/Siemens','ASCR 4 Sprinkler','Remote Troubleshooting']},'ESA':{cls:'pb-esa',c:['Systems Integrator','Project Management']},'Bosch':{cls:'pb-bosch',c:['Bosch/Radionix']}}},L4:{t:'Master Technician',c:'var(--rd)',cls:'l4',p:{'NTC':{cls:'pb-ntc',c:['NICET 2','NICET 3']},'AAA UNIV':{cls:'pb-aaa',c:['FA Advanced','Kitchen Hood','Clean Agent Hazmat','HW/WL/Fire Trainer','ASCR 4 Sprinkler']},'ADC':{cls:'pb-adc',c:['Proactive Deterrence','Commercial Video']},'ESA':{cls:'pb-esa',c:['Project Management']}}}};
+
+var TABS_BY_ROLE={technician:['dashboard','curriculum','exams','flashcards','search'],sales:['dashboard','exams','flashcards','search'],coordinator:['dashboard','curriculum','exams','flashcards','search'],manager:['dashboard','curriculum','exams','flashcards','search','team'],executive:['dashboard','curriculum','exams','flashcards','search','team','executive']};
+
+var cur=null,selR='',cCat='',cQs=[],cQI=0,scr=0,ans=false,selA='',tM='exam',searchQ='';
+function sv(k,v){try{localStorage.setItem('ssu3_'+k,JSON.stringify(v))}catch(e){}}
+function ld(k){try{var v=localStorage.getItem('ssu3_'+k);return v?JSON.parse(v):null}catch(e){return null}}
+function sR(el){document.querySelectorAll('.rb').forEach(function(b){b.classList.remove('on')});el.classList.add('on');selR=el.dataset.r}
+function fillD(){document.getElementById('eid').value='DEMO';document.getElementById('epw').value='demo2026';sR(document.querySelector('[data-r="technician"]'));document.getElementById('est').value='AZ'}
+function showReg(){document.getElementById('regModal').classList.remove('hid')}
+function hideReg(){document.getElementById('regModal').classList.add('hid')}
+function submitReg(){var n=document.getElementById('rname').value,e=document.getElementById('remail').value,err=document.getElementById('rerr');if(!n||!e){err.textContent='Fill in all fields';return}err.textContent='';var regs=ld('registrations')||[];regs.push({name:n,email:e,state:document.getElementById('rstate').value,role:document.getElementById('rrole').value,date:new Date().toISOString(),status:'pending'});sv('registrations',regs);hideReg();alert('Registration submitted! You will receive credentials via email once approved by management.')}
+
+function doLogin(){var id=document.getElementById('eid').value.trim().toUpperCase(),pw=document.getElementById('epw').value,err=document.getElementById('lerr');if(!id||!pw){err.textContent='Enter ID and password';return}var u=U[id];if(!u||u.pw!==pw){err.textContent='Invalid credentials.';return}cur=JSON.parse(JSON.stringify(u));cur.id=id;cur.r=selR||u.r;var s=document.getElementById('est');if(s.value)cur.st=s.value;sv('sess',cur);err.textContent='';showApp()}
+document.getElementById('epw').addEventListener('keypress',function(e){if(e.key==='Enter')doLogin()});
+document.getElementById('eid').addEventListener('keypress',function(e){if(e.key==='Enter')document.getElementById('epw').focus()});
+
+function showApp(){if(!cur)return;document.getElementById('login').classList.add('hid');document.getElementById('train').style.display='none';document.getElementById('app').classList.remove('hid');document.getElementById('un').textContent=cur.n;var b=document.getElementById('ub');b.textContent=cur.lv+' '+cur.r.toUpperCase();b.className='ub '+cur.r.substring(0,4);document.getElementById('us2').textContent=cur.st;
+var tabs=TABS_BY_ROLE[cur.r]||TABS_BY_ROLE.technician;var thtml='';tabs.forEach(function(t){thtml+='<div class="tab'+(t==='dashboard'?' on':'')+'" data-t="'+t+'" onclick="sT(\''+t+'\')">'+t.toUpperCase()+'</div>'});document.getElementById('tbs').innerHTML=thtml;sT('dashboard')}
+
+function sT(t){document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x.dataset.t===t)});document.getElementById('train').style.display='none';document.getElementById('app').classList.remove('hid');var m=document.getElementById('mc');
+if(t==='dashboard')rDash(m);else if(t==='curriculum')rCur(m);else if(t==='exams')rExam(m);else if(t==='flashcards')rFlash(m);else if(t==='search')rSearch(m);else if(t==='team')rTeam(m);else if(t==='executive')rExec(m)}
+
+function rDash(el){var p=ld('p_'+cur.id)||{},cc=ld('c_'+cur.id)||{};var tc=0,dc=0;Object.keys(CUR).forEach(function(lv){Object.keys(CUR[lv].p).forEach(function(pv){tc+=CUR[lv].p[pv].c.length;CUR[lv].p[pv].c.forEach(function(co){if(cc[lv+'_'+pv+'_'+co])dc++})})});var cp=tc?Math.round(dc/tc*100):0;var ed=0,ts=0;Object.keys(p).forEach(function(c){if(p[c].ls!=null){ed++;ts+=p[c].ls}});var av=ed?Math.round(ts/ed):0;var tq=0;if(typeof QB!=='undefined')Object.keys(QB).forEach(function(k){tq+=QB[k].length});
+var lc=cur.lv.startsWith('L')?cur.lv.toLowerCase():(cur.lv==='Admin'?'adm':cur.lv==='Manager'?'mgt':cur.lv==='Executive'?'ext':'l1');
+el.innerHTML='<div class="welc"><h1>Welcome, <span>'+cur.n.split(' ')[0]+'</span></h1><p>SSU.online &mdash; '+tq+' questions across 35 categories. Track curriculum, take exams, earn your level.</p><span class="lt '+lc+'">'+cur.lv+' CERTIFICATION TRACK</span></div><div class="cg"><div class="cd" onclick="sT(\'curriculum\')"><div class="ic">&#x1f4da;</div><h3>Curriculum</h3><p>'+dc+'/'+tc+' courses ('+cp+'%)</p><div class="pb"><div class="pf" style="width:'+cp+'%;background:linear-gradient(90deg,var(--teal),var(--te))"></div></div></div><div class="cd" onclick="sT(\'exams\')"><div class="ic">&#x1f4dd;</div><h3>Exam Center</h3><p>'+tq+' questions &middot; '+ed+' exams taken</p><p style="color:var(--tp);font-size:.65rem;margin-top:2px">QCS: 80%+</p></div><div class="cd" onclick="sT(\'flashcards\')"><div class="ic">&#x1f516;</div><h3>Flashcards</h3><p>Study mode &mdash; no scoring</p></div><div class="cd" onclick="sT(\'search\')"><div class="ic">&#x1f50d;</div><h3>Field Reference</h3><p>Search '+tq+' Q&As instantly</p></div></div>'}
+
+function rCur(el){var cc=ld('c_'+cur.id)||{},h='<div class="sh">L1&ndash;L4 CURRICULUM <span class="ct">Leveling Standards</span></div>';Object.keys(CUR).forEach(function(lv){var d=CUR[lv],tc=0,dc=0;Object.keys(d.p).forEach(function(pv){tc+=d.p[pv].c.length;d.p[pv].c.forEach(function(co){if(cc[lv+'_'+pv+'_'+co])dc++})});var pc=tc?Math.round(dc/tc*100):0;h+='<div class="ls"><div class="lh" onclick="this.nextElementSibling.classList.toggle(\'hid\');this.querySelector(\'.ch\').classList.toggle(\'op\')"><span class="ch">&#x25b6;</span><h2 style="color:'+d.c+'">'+lv+' &mdash; '+d.t+'</h2><span class="pc" style="color:'+d.c+'">'+dc+'/'+tc+' ('+pc+'%)</span></div><div class="'+(lv!=='L1'?'hid':'')+'"><div class="pb"><div class="pf" style="width:'+pc+'%;background:linear-gradient(90deg,var(--teal),'+d.c+')"></div></div>';Object.keys(d.p).forEach(function(pv){var pd=d.p[pv];h+='<div class="pg"><div class="pbd '+pd.cls+'">'+pv+' &middot; '+pd.c.length+'</div><div class="cl">';pd.c.forEach(function(co){var key=lv+'_'+pv+'_'+co,dn=!!cc[key];h+='<div class="ci'+(dn?' dn':'')+'" onclick="tC(\''+key.replace(/'/g,"\\'")+'\',this)"><div class="cx">'+(dn?'&#x2713;':'')+'</div><span class="cn">'+co+'</span></div>'});h+='</div></div>'});h+='</div></div>'});el.innerHTML=h}
+
+function tC(k,el){var cc=ld('c_'+cur.id)||{};if(cc[k]){delete cc[k];el.classList.remove('dn');el.querySelector('.cx').innerHTML=''}else{cc[k]=Date.now();el.classList.add('dn');el.querySelector('.cx').innerHTML='&#x2713;'}sv('c_'+cur.id,cc)}
+
+function rExam(el){if(typeof QB==='undefined'){el.innerHTML='<p>Loading questions...</p>';return}var h='<div class="sh">EXAM CENTER <span class="ct">QCS 80%+ &middot; '+Object.keys(QB).length+' categories</span></div><div class="cg">',p=ld('p_'+cur.id)||{},ic={'NEC':'&#x26A1;','Fire':'&#x1f525;','Oregon':'&#x1f332;','Security':'&#x1f510;','Sales':'&#x1f4bc;','Access':'&#x1f511;','Safety':'&#x1f6e1;','Low':'&#x1f50c;','Detection':'&#x1f4e1;','Power':'&#x1f50b;','Multimeter':'&#x1f527;','Calculation':'&#x1f4d0;','Communication':'&#x1f4e2;','Customer':'&#x1f91d;','Equipment':'&#x1f4e6;','Panel':'&#x1f5a5;','Compliance':'&#x2696;','Emergency':'&#x1f6a8;','Installation':'&#x1f6e0;','State':'&#x1f3db;','General':'&#x1f4cb;','False':'&#x26a0;'};
+var cats=Object.keys(QB).sort(function(a,b){return QB[b].length-QB[a].length});
+cats.forEach(function(c){var d=p[c]||{},best=d.bs||'&mdash;',ico='&#x1f4cb;';Object.keys(ic).forEach(function(k){if(c.indexOf(k)>=0)ico=ic[k]});h+='<div class="cd" onclick="goT(\''+c.replace(/'/g,"\\'")+'\',\'exam\')"><span class="bg">'+QB[c].length+'</span><div class="ic">'+ico+'</div><h3>'+c+'</h3><p>Best: '+(typeof best==='number'?best+'%':best)+'</p></div>'});h+='</div>';el.innerHTML=h}
+
+function rFlash(el){if(typeof QB==='undefined')return;var h='<div class="sh">FLASHCARDS <span class="ct">Study mode</span></div><div class="cg">';Object.keys(QB).sort(function(a,b){return QB[b].length-QB[a].length}).forEach(function(c){h+='<div class="cd" onclick="goT(\''+c.replace(/'/g,"\\'")+'\',\'flash\')"><span class="bg">STUDY</span><div class="ic">&#x1f4d6;</div><h3>'+c+'</h3><p>'+QB[c].length+' questions</p></div>'});h+='</div>';el.innerHTML=h}
+
+function rSearch(el){var h='<div class="sh">FIELD REFERENCE <span class="ct">Search '+Object.keys(QB).reduce(function(s,k){return s+QB[k].length},0)+' Q&As</span></div><div class="sbar"><input type="text" id="sinp" placeholder="Search: smoke detector, NEC 760, voltage drop..." oninput="doSearch()" value="'+searchQ+'"></div><div class="flt" id="sflt"></div><div id="sres" style="margin-top:12px"></div>';el.innerHTML=h;
+var flt='<div class="flt">';var groups=['All','NEC','Fire','Security','Sales','Oregon','Access','Safety','Low Voltage','Detection','Power'];groups.forEach(function(g){flt+='<span class="fb'+(g==='All'?' on':'')+'" onclick="setFlt(this,\''+g+'\')">'+g+'</span>'});flt+='</div>';document.getElementById('sflt').innerHTML=flt;if(searchQ)doSearch()}
+
+var sFlt='All';
+function setFlt(el,f){document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on')});el.classList.add('on');sFlt=f;doSearch()}
+function doSearch(){var q=document.getElementById('sinp').value.toLowerCase().trim();searchQ=q;if(!q||q.length<2){document.getElementById('sres').innerHTML='<p style="color:var(--sl);font-size:.8rem">Type at least 2 characters to search...</p>';return}
+var results=[];Object.keys(QB).forEach(function(cat){if(sFlt!=='All'&&cat.toLowerCase().indexOf(sFlt.toLowerCase())<0)return;QB[cat].forEach(function(item){if(item.q.toLowerCase().indexOf(q)>=0||(item.exp&&item.exp.toLowerCase().indexOf(q)>=0)||(item.ref&&item.ref.toLowerCase().indexOf(q)>=0)){results.push({cat:cat,q:item.q,a:item.a,ans:item.ans,exp:item.exp,ref:item.ref})}})});
+var h='<p style="font-size:.72rem;color:var(--sl);margin-bottom:8px">'+results.length+' results</p>';
+results.slice(0,50).forEach(function(r){h+='<div class="sr"><div class="sq">'+r.q+'</div><div class="sa">&#x2713; '+r.ans+': '+(r.a[r.ans]||'')+'</div>'+(r.exp?'<div class="se">'+r.exp+'</div>':'')+'<div class="sk">'+r.cat+(r.ref?' &middot; '+r.ref:'')+'</div></div>'});
+if(results.length>50)h+='<p style="color:var(--sl);font-size:.7rem">Showing 50 of '+results.length+'...</p>';
+document.getElementById('sres').innerHTML=h}
+
+function rTeam(el){var h='<div class="sh">MANAGER DASHBOARD <span class="ct">Team Overview</span></div>';h+='<div class="stat-grid">';var ids=Object.keys(U);h+='<div class="stat"><div class="sv" style="color:var(--te)">'+ids.length+'</div><div class="sl2">Total Users</div></div>';
+var techs=ids.filter(function(i){return U[i].r==='technician'}).length;h+='<div class="stat"><div class="sv" style="color:var(--gn)">'+techs+'</div><div class="sl2">Technicians</div></div>';
+var tq=Object.keys(QB).reduce(function(s,k){return s+QB[k].length},0);h+='<div class="stat"><div class="sv" style="color:var(--cy)">'+tq+'</div><div class="sl2">Total Questions</div></div>';
+h+='<div class="stat"><div class="sv" style="color:var(--gd)">35</div><div class="sl2">Exam Categories</div></div></div>';
+h+='<div class="sh">TEAM PROGRESS</div><div style="color:var(--sl);font-size:.8rem;padding:12px;background:rgba(10,20,40,.4);border-radius:8px">';
+ids.forEach(function(id){var u=U[id],p=ld('p_'+id)||{};var exams=Object.keys(p).length;var avg=0;if(exams){var t=0;Object.keys(p).forEach(function(c){t+=p[c].ls||0});avg=Math.round(t/exams)}h+='<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(30,235,215,.04)"><span>'+u.n+' ('+u.lv+')</span><span>'+exams+' exams &middot; '+avg+'% avg</span></div>'});
+h+='</div>';
+var regs=ld('registrations')||[];if(regs.length){h+='<div class="sh">PENDING REGISTRATIONS <span class="ct">'+regs.length+'</span></div>';regs.forEach(function(r){h+='<div style="padding:8px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.15);border-radius:6px;margin-bottom:6px;font-size:.78rem"><strong>'+r.name+'</strong> &mdash; '+r.email+' &mdash; '+r.role+' &mdash; '+r.state+'<br><span style="color:var(--sl);font-size:.65rem">'+new Date(r.date).toLocaleDateString()+' &middot; Status: '+r.status+'</span></div>'})}
+el.innerHTML=h}
+
+function rExec(el){var h='<div class="sh">EXECUTIVE OVERVIEW <span class="ct">Company-Wide KPIs</span></div>';h+='<div class="stat-grid">';var tq=Object.keys(QB).reduce(function(s,k){return s+QB[k].length},0);
+h+='<div class="stat"><div class="sv" style="color:var(--te)">'+tq+'</div><div class="sl2">Question Bank</div></div>';
+h+='<div class="stat"><div class="sv" style="color:var(--gn)">35</div><div class="sl2">Exam Categories</div></div>';
+h+='<div class="stat"><div class="sv" style="color:var(--gd)">6</div><div class="sl2">States Active</div></div>';
+h+='<div class="stat"><div class="sv" style="color:var(--or)">4</div><div class="sl2">Cert Levels</div></div>';
+h+='<div class="stat"><div class="sv" style="color:var(--cy)">80%</div><div class="sl2">QCS Threshold</div></div>';
+h+='<div class="stat"><div class="sv" style="color:var(--pg)">'+Object.keys(U).length+'</div><div class="sl2">Active Accounts</div></div></div>';
+h+='<div class="sh">CATEGORY BREAKDOWN</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px">';
+Object.keys(QB).sort(function(a,b){return QB[b].length-QB[a].length}).forEach(function(c){h+='<div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(10,20,40,.4);border-radius:4px;font-size:.75rem"><span>'+c+'</span><span style="color:var(--te);font-family:Geist Mono;font-size:.65rem">'+QB[c].length+'</span></div>'});
+h+='</div>';el.innerHTML=h}
+
+function goT(c,m){cCat=c;tM=m;cQs=shf(QB[c].slice());cQI=0;scr=0;ans=false;selA='';document.getElementById('app').classList.add('hid');document.getElementById('train').style.display='block';document.getElementById('tl').textContent=c+(m==='exam'?' \u2014 EXAM':' \u2014 STUDY');rQ()}
+function xT(){document.getElementById('train').style.display='none';showApp();sT(tM==='exam'?'exams':'flashcards')}
+
+function rQ(){if(cQI>=cQs.length){sRes();return}var q=cQs[cQI];ans=false;selA='';document.getElementById('qcc').textContent=(cQI+1)+'/'+cQs.length;var el=document.getElementById('tby'),h='<div class="qk">'+cCat+' \u00b7 Q'+(cQI+1)+'</div><div class="qt">'+q.q+'</div><div class="qos">';['A','B','C','D'].forEach(function(L){if(q.a[L])h+='<div class="qo" data-l="'+L+'" onclick="pA(this,\''+L+'\')"><span class="ol">'+L+'</span><span class="ot">'+q.a[L]+'</span></div>'});h+='</div><div class="qf" id="qf"></div><div class="ta"><button class="bs" id="bsu" onclick="sA()" disabled>SUBMIT</button><button class="bn" id="bne" onclick="nQ()" style="display:none">NEXT \u2192</button></div>';el.innerHTML=h}
+function pA(el,L){if(ans)return;document.querySelectorAll('.qo').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');selA=L;document.getElementById('bsu').disabled=false}
+function sA(){if(ans||!selA)return;ans=true;var q=cQs[cQI],ok=selA===q.ans;if(ok)scr++;document.querySelectorAll('.qo').forEach(function(o){var L=o.dataset.l;if(L===q.ans)o.classList.add('cor');else if(L===selA&&!ok)o.classList.add('wrg')});var fb=document.getElementById('qf');fb.className='qf sh '+(ok?'cf':'wf');fb.innerHTML='<strong>'+(ok?'\u2713 Correct':'\u2717 Answer: '+q.ans)+'</strong>'+(q.exp?'<br>'+q.exp:'')+(q.ref?'<div class="rf">'+q.ref+'</div>':'');document.getElementById('bsu').style.display='none';document.getElementById('bne').style.display='inline-block'}
+function nQ(){selA='';cQI++;rQ()}
+
+function sRes(){var t=cQs.length,pc=Math.round(scr/t*100),ps=pc>=80,p=ld('p_'+cur.id)||{};if(!p[cCat])p[cCat]={};p[cCat].ct=t;p[cCat].ls=pc;p[cCat].ld=new Date().toISOString();if(!p[cCat].bs||pc>p[cCat].bs)p[cCat].bs=pc;sv('p_'+cur.id,p);document.getElementById('tby').innerHTML='<div class="sc"><div class="sl">'+cCat+'</div><div class="bsc '+(ps?'ps':'fl')+'">'+pc+'%</div><div class="sl">'+scr+'/'+t+' CORRECT</div><div style="color:var(--sl);font-size:.75rem;margin-top:8px">'+(ps?'\u2713 PASSED \u2014 QCS met':'\u2717 Below 80% QCS')+'</div><div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="bs" onclick="goT(\''+cCat.replace(/'/g,"\\'")+'\',\''+tM+'\')">RETAKE</button><button class="bn" onclick="xT()">\u2190 BACK</button></div></div>'}
+
+function shf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function out(){cur=null;try{localStorage.removeItem('ssu3_sess')}catch(e){}document.getElementById('app').classList.add('hid');document.getElementById('train').style.display='none';document.getElementById('login').classList.remove('hid')}
+(function(){var s=ld('sess');if(s&&s.id){cur=s;selR=s.r;showApp()}})();
+</script>
+</body>
+</html>
